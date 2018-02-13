@@ -1,5 +1,11 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+  before_action :find_restaurant, only: [:chef]
+
+  def chef
+    # @restaurant
+    @chef_name = @restaurant.chef
+  end
 
   def top
     @restaurants = Restaurant.where(stars: 5)
@@ -74,5 +80,9 @@ class RestaurantsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def restaurant_params
       params.require(:restaurant).permit(:name, :address, :description, :stars)
+    end
+
+    def find_restaurant
+      @restaurant = Restaurant.find(params[:id])
     end
 end
